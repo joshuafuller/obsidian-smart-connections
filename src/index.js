@@ -136,6 +136,11 @@ export default class SmartConnectionsPlugin extends Plugin {
     console.log("loading env");
     SmartEnv.create(this);
     await SmartEnv.wait_for({ loaded: true });
+    // make sure settings and smart_notices exist
+    this.env.settings ??= {};
+    this.env.settings.smart_notices ??= {};
+    // initialize notices if needed
+    this.notices;
     console.log("env loaded");
     // skip if is mobile
     /**
