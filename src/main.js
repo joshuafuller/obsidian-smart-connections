@@ -1,6 +1,5 @@
 import Obsidian from "obsidian";
 const {
-  Notice,
   Plugin,
   requestUrl,
   Platform,
@@ -12,14 +11,13 @@ import { open_note } from "obsidian-smart-env/utils/open_note.js";
 
 import { ScEarlySettingsTab } from "./views/settings_tab.js";
 
-import { ReleaseNotesView }    from "./views/release_notes_view.js";
+import { ReleaseNotesView } from "./views/release_notes_view.js";
 
 import { StoryModal } from 'obsidian-smart-env/src/modals/story.js';
 import { get_random_connection } from "./utils/get_random_connection.js";
 import { add_smart_dice_icon } from "./utils/add_icons.js";
 import { should_relocate_leaf } from "./utils/view_leaf_location.js";
 
-// v4
 import { SmartPlugin } from "obsidian-smart-env/smart_plugin.js";
 import { ConnectionsItemView } from "./views/connections_item_view.js";
 import { LookupItemView } from "./views/lookup_item_view.js";
@@ -29,12 +27,14 @@ import { build_connections_codeblock } from "./utils/build_connections_codeblock
 export default class SmartConnectionsPlugin extends SmartPlugin {
   SmartEnv = SmartEnv;
   ReleaseNotesView = ReleaseNotesView;
+
   get smart_env_config() {
-    if(!this._smart_env_config){
+    if (!this._smart_env_config) {
       this._smart_env_config = smart_env_config;
     }
     return this._smart_env_config;
   }
+
   ConnectionsSettingsTab = ScEarlySettingsTab;
 
   get item_views() {
@@ -45,22 +45,19 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
     };
   }
 
-  // GETTERS
   get obsidian() { return Obsidian; }
   get api() { return this._api; }
+
   onload() {
-    this.app.workspace.onLayoutReady(this.initialize.bind(this)); // initialize when layout is ready
-    // this.SmartEnv.create(this); // IMPORTANT: works on mobile without this.smart_env_config as second arg (appears to be fixed 2025-12-03)
+    this.app.workspace.onLayoutReady(this.initialize.bind(this));
     this.SmartEnv.create(this, this.smart_env_config);
-    // SmartChatView.register_view(this);
-    this.addSettingTab(new this.ConnectionsSettingsTab(this.app, this)); // add settings tab
+    this.addSettingTab(new this.ConnectionsSettingsTab(this.app, this));
     add_smart_dice_icon();
-    this.register_commands(); // from SmartPlugin
-    this.register_item_views(); // from SmartPlugin
-    this.register_ribbon_icons(); // from SmartPlugin
-    // this.register_views(); // replace with register_item_views from SmartPlugin
+    this.register_commands();
+    this.register_item_views();
+    this.register_ribbon_icons();
   }
-  // async onload() { this.app.workspace.onLayoutReady(this.initialize.bind(this)); } // initialize when layout is ready
+
   onunload() {
     console.log("Unloading Smart Connections plugin");
     this.notices?.unload();
@@ -92,11 +89,7 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
     await this.check_for_updates();
   }
 
-  /**
-   * Initialize ribbon icons with default visibility.
-   */
-
-  get ribbon_icons () {
+  get ribbon_icons() {
     return {
       connections: {
         icon_name: "smart-connections",
@@ -113,7 +106,7 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
         description: "Smart Connections: Open random connection",
         callback: () => { this.open_random_connection(); }
       }
-    }
+    };
   }
 
   get settings() { return this.env?.settings || {}; }
@@ -165,8 +158,8 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
       console.log("opening release notes modal");
       try {
         this.ReleaseNotesView.open(this.app.workspace, this.manifest.version);
-      } catch (e) {
-        console.error('Failed to open ReleaseNotesView', e);
+      } catch (error) {
+        console.error('Failed to open ReleaseNotesView', error);
       }
       await this.set_last_known_version(this.manifest.version);
     }
@@ -176,7 +169,7 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
 
   async check_for_update() {
     try {
-      const {json: response} = await requestUrl({
+      const { json: response } = await requestUrl({
         url: "https://api.github.com/repos/brianpetro/obsidian-smart-connections/releases/latest",
         method: "GET",
         headers: {
@@ -185,9 +178,16 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
         contentType: "application/json",
       });
       const latest_release = response.tag_name;
-      if(latest_release !== this.manifest.version) {
-        this.env?.events?.emit('plugin:new_version_available', { version: latest_release });
-        this.notices?.show('new_version_available', {version: latest_release});
+      if (latest_release !== this.manifest.version) {
+        if (!this.update_available || this.latest_release_version !== latest_release) {
+          this.env?.events?.emit('plugin:new_version_available', {
+            level: 'attention',
+            message: `Smart Connections ${latest_release} is available.`,
+            version: latest_release,
+            event_source: 'check_for_update',
+          });
+        }
+        this.latest_release_version = latest_release;
         this.update_available = true;
       }
     } catch (error) {
@@ -195,10 +195,9 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
     }
   }
 
-
   async restart_plugin() {
     this.env?.unload_main?.(this);
-    await new Promise(r => setTimeout(r, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     window.restart_plugin = async (id) => {
       await window.app.plugins.disablePlugin(id);
       await window.app.plugins.enablePlugin(id);
@@ -243,30 +242,37 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
   async open_random_connection() {
     const curr_file = this.app.workspace.getActiveFile();
     if (!curr_file) {
-      new Notice('No active file to find connections for');
+      this.env?.events?.emit('connections:open_random_unavailable', {
+        level: 'warning',
+        message: 'No active file to find connections for.',
+        event_source: 'open_random_connection',
+      });
       return;
     }
     const rand_entity = await get_random_connection(this.env, curr_file.path);
     if (!rand_entity) {
-      new Notice('Cannot open random connection for non-embedded source: ' + curr_file.path);
+      this.env?.events?.emit('connections:open_random_unavailable', {
+        level: 'warning',
+        message: `Cannot open random connection for non-embedded source: ${curr_file.path}`,
+        event_source: 'open_random_connection',
+      });
       return;
     }
     this.open_note(rand_entity.item.path);
     this.env?.events?.emit?.('connections:open_random');
   }
 
-  async open_note(target_path, event=null) { await open_note(this, target_path, event); }
+  async open_note(target_path, event = null) { await open_note(this, target_path, event); }
 
   /**
    * @deprecated extract into utility
    */
-  async add_to_gitignore(ignore, message=null) {
-    if(!(await this.app.vault.adapter.exists(".gitignore"))) return;
+  async add_to_gitignore(ignore, message = null) {
+    if (!(await this.app.vault.adapter.exists(".gitignore"))) return;
     let gitignore_file = await this.app.vault.adapter.read(".gitignore");
     if (gitignore_file.indexOf(ignore) < 0) {
       await this.app.vault.adapter.append(".gitignore", `\n\n${message ? "# " + message + "\n" : ""}${ignore}`);
       console.log("Added to .gitignore: " + ignore);
     }
   }
-
 }

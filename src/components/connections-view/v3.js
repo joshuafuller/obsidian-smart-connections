@@ -1,5 +1,5 @@
 import styles from './v3.css';
-import { Menu, Notice } from 'obsidian';
+import { Menu } from 'obsidian';
 import { StoryModal } from 'obsidian-smart-env/src/modals/story.js';
 import { copy_to_clipboard } from 'obsidian-smart-env/utils/copy_to_clipboard.js';
 import { build_connections_context_items } from '../../utils/connections_context_items.js';
@@ -28,7 +28,7 @@ export async function build_html(view, opts = {}) {
       icon: 'menu',
       attrs: 'data-action="open-menu"'
     }
-  ].map(btn => `
+  ].map((btn) => `
     <button
       aria-label="${btn.title}"
       ${btn.attrs ?? ''}
@@ -64,7 +64,6 @@ export async function render(view, opts = {}) {
   const frag = this.create_doc_fragment(html);
   this.apply_style_sheet(styles);
   const container = frag.querySelector('.sc-connections-view');
-  // Post-process UI elements
   post_process.call(this, view, container, opts);
   return frag;
 }
@@ -112,7 +111,6 @@ export async function post_process(view, container, opts = {}) {
       const connections_state = connections_list?.item?.data?.connections || {};
       const visible_results = filter_hidden_results(raw_results, connections_state);
 
-      // Refresh
       menu.addItem((menu_item) => {
         menu_item
           .setTitle('Refresh connections')
@@ -123,7 +121,6 @@ export async function post_process(view, container, opts = {}) {
         ;
       });
 
-      // Open as context
       menu.addItem((menu_item) => {
         const context_items = build_connections_context_items({
           source_item: connections_item,
@@ -134,7 +131,14 @@ export async function post_process(view, container, opts = {}) {
           .setIcon('briefcase')
           .setDisabled(!context_items.length)
           .onClick(async () => {
-            if (!context_items.length) return new Notice('No connection results to send to Smart Context');
+            if (!context_items.length) {
+              env.events.emit('connections:send_to_context_empty', {
+                level: 'warning',
+                message: 'No connection results to send to Smart Context.',
+                event_source: 'connections_view_menu',
+              });
+              return;
+            }
             const smart_context = env.smart_contexts.new_context();
             smart_context.add_items(context_items);
             smart_context.emit_event('context_selector:open');
@@ -143,7 +147,6 @@ export async function post_process(view, container, opts = {}) {
         ;
       });
 
-      // Copy as list of links
       menu.addItem((menu_item) => {
         const links_payload = format_connections_as_links(visible_results);
         menu_item
@@ -151,15 +154,20 @@ export async function post_process(view, container, opts = {}) {
           .setIcon('copy')
           .setDisabled(!links_payload)
           .onClick(async () => {
-            if (!links_payload) return new Notice('No connection results to copy');
+            if (!links_payload) {
+              env.events.emit('connections:copy_list_empty', {
+                level: 'warning',
+                message: 'No connection results to copy.',
+                event_source: 'connections_view_menu',
+              });
+              return;
+            }
             await copy_to_clipboard(links_payload);
-            new Notice('Connections links copied to clipboard');
             connections_list.emit_event('connections:copied_list');
           })
         ;
       });
 
-      // Fold / unfold all
       menu.addItem((menu_item) => {
         const connections_settings = opts.connections_settings
           ?? connections_list?.settings
@@ -177,8 +185,8 @@ export async function post_process(view, container, opts = {}) {
             const curr_expanded = curr_settings?.expanded_view;
             if (curr_settings) curr_settings.expanded_view = !curr_expanded;
 
-            container.querySelectorAll('.sc-result').forEach((elm) => {
-              curr_expanded ? elm.classList.add('sc-collapsed') : elm.classList.remove('sc-collapsed');
+            container.querySelectorAll('.sc-result').forEach((element) => {
+              curr_expanded ? element.classList.add('sc-collapsed') : element.classList.remove('sc-collapsed');
             });
           })
         ;
@@ -186,7 +194,6 @@ export async function post_process(view, container, opts = {}) {
 
       menu.addSeparator();
 
-      // Settings
       menu.addItem((menu_item) => {
         menu_item
           .setTitle('Connections settings')
@@ -197,7 +204,6 @@ export async function post_process(view, container, opts = {}) {
         ;
       });
 
-      // Help
       menu.addItem((menu_item) => {
         menu_item
           .setTitle('Help & getting started')
@@ -210,17 +216,14 @@ export async function post_process(view, container, opts = {}) {
     });
   }
 
-  // Render results
   const connections_list_component_key = opts.connections_list_component_key
     || connections_list.connections_list_component_key
     || 'connections_list_v4'
   ;
-  // console.log('connections_list_component_key:', connections_list_component_key);
   const list = await env.smart_components.render_component(connections_list_component_key, connections_list, opts);
   this.empty(list_container);
   list_container.appendChild(list);
 
-  // Top-bar context lines for current entity
   const entity = connections_list?.item || connections_item;
   const [top_line, bottom_line] = get_context_lines(entity);
   this.empty(sc_top_bar_context);
