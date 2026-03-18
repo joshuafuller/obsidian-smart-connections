@@ -1,7 +1,6 @@
 import styles from './connections_codeblock.css';
 import { StoryModal } from 'obsidian-smart-env/src/modals/story.js';
 import { copy_to_clipboard } from 'obsidian-smart-env/utils/copy_to_clipboard.js';
-import { emit_notice_event } from 'obsidian-smart-env/src/utils/emit_notice_event.js';
 
 import { build_connections_context_items } from '../utils/connections_context_items.js';
 import { format_connections_as_links } from '../utils/format_connections_as_links.js';
@@ -143,8 +142,7 @@ export async function post_process(connections_list, container, opts = {}) {
     context_button?.addEventListener('click', async () => {
       const raw_results = await get_results_fallback(connections_list, opts);
       if (!raw_results.length) {
-        emit_notice_event(env, {
-          event_key: 'connections:send_to_context_empty',
+        env?.events?.emit?.('connections:send_to_context_empty', {
           level: 'warning',
           message: 'No connection results to send to Smart Context',
           event_source: 'connections_codeblock.send_to_smart_context',
@@ -161,8 +159,7 @@ export async function post_process(connections_list, container, opts = {}) {
       });
 
       if (!context_items.length) {
-        emit_notice_event(env, {
-          event_key: 'connections:send_to_context_empty',
+        env?.events?.emit?.('connections:send_to_context_empty', {
           level: 'warning',
           message: 'No visible connection results to send to Smart Context',
           event_source: 'connections_codeblock.send_to_smart_context',
@@ -180,8 +177,7 @@ export async function post_process(connections_list, container, opts = {}) {
     copy_links_button?.addEventListener('click', async () => {
       const raw_results = await get_results_fallback(connections_list, opts);
       if (!raw_results.length) {
-        emit_notice_event(env, {
-          event_key: 'connections:copy_list_empty',
+        env?.events?.emit?.('connections:copy_list_empty', {
           level: 'warning',
           message: 'No connection results to copy',
           event_source: 'connections_codeblock.copy_as_links',
@@ -194,8 +190,7 @@ export async function post_process(connections_list, container, opts = {}) {
 
       const links_payload = format_connections_as_links(visible_results);
       if (!links_payload) {
-        emit_notice_event(env, {
-          event_key: 'connections:copy_list_empty',
+        env?.events?.emit?.('connections:copy_list_empty', {
           level: 'warning',
           message: 'No visible connection results to copy',
           event_source: 'connections_codeblock.copy_as_links',
