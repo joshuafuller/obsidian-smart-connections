@@ -1,7 +1,7 @@
 import styles from './connections_codeblock.css';
-import { Notice } from 'obsidian';
 import { StoryModal } from 'obsidian-smart-env/src/modals/story.js';
 import { copy_to_clipboard } from 'obsidian-smart-env/utils/copy_to_clipboard.js';
+import { emit_notice_event } from 'obsidian-smart-env/src/utils/emit_notice_event.js';
 
 import { build_connections_context_items } from '../utils/connections_context_items.js';
 import { format_connections_as_links } from '../utils/format_connections_as_links.js';
@@ -142,7 +142,15 @@ export async function post_process(connections_list, container, opts = {}) {
     const context_button = container.querySelector('[data-action="send-to-smart-context"]');
     context_button?.addEventListener('click', async () => {
       const raw_results = await get_results_fallback(connections_list, opts);
-      if (!raw_results.length) return new Notice('No connection results to send to Smart Context');
+      if (!raw_results.length) {
+        emit_notice_event(env, {
+          event_key: 'connections:send_to_context_empty',
+          level: 'warning',
+          message: 'No connection results to send to Smart Context',
+          event_source: 'connections_codeblock.send_to_smart_context',
+        });
+        return;
+      }
 
       const connections_state = connections_list?.item?.data?.connections || {};
       const visible_results = filter_hidden_results(raw_results, connections_state);
@@ -152,7 +160,15 @@ export async function post_process(connections_list, container, opts = {}) {
         results: visible_results
       });
 
-      if (!context_items.length) return new Notice('No visible connection results to send to Smart Context');
+      if (!context_items.length) {
+        emit_notice_event(env, {
+          event_key: 'connections:send_to_context_empty',
+          level: 'warning',
+          message: 'No visible connection results to send to Smart Context',
+          event_source: 'connections_codeblock.send_to_smart_context',
+        });
+        return;
+      }
 
       const smart_context = env.smart_contexts.new_context();
       smart_context.add_items(context_items);
@@ -163,16 +179,37 @@ export async function post_process(connections_list, container, opts = {}) {
     const copy_links_button = container.querySelector('[data-action="copy-as-links"]');
     copy_links_button?.addEventListener('click', async () => {
       const raw_results = await get_results_fallback(connections_list, opts);
-      if (!raw_results.length) return new Notice('No connection results to copy');
+      if (!raw_results.length) {
+        emit_notice_event(env, {
+          event_key: 'connections:copy_list_empty',
+          level: 'warning',
+          message: 'No connection results to copy',
+          event_source: 'connections_codeblock.copy_as_links',
+        });
+        return;
+      }
 
       const connections_state = connections_list?.item?.data?.connections || {};
       const visible_results = filter_hidden_results(raw_results, connections_state);
 
       const links_payload = format_connections_as_links(visible_results);
-      if (!links_payload) return new Notice('No visible connection results to copy');
+      if (!links_payload) {
+        emit_notice_event(env, {
+          event_key: 'connections:copy_list_empty',
+          level: 'warning',
+          message: 'No visible connection results to copy',
+          event_source: 'connections_codeblock.copy_as_links',
+        });
+        return;
+      }
 
-      await copy_to_clipboard(links_payload);
-      new Notice('Copied connections as list of links');
+      await copy_to_clipboard(links_payload, {
+        env,
+        event_source: 'connections_codeblock.copy_as_links',
+        success_event_key: 'connections:list_copied',
+        error_event_key: 'connections:list_copy_failed',
+        unavailable_event_key: 'connections:list_copy_unavailable',
+      });
       connections_list.emit_event('connections:copied_list');
     });
 
@@ -209,5 +246,4 @@ async function get_results_fallback(connections_list, opts = {}) {
     return [];
   }
 }
-
 

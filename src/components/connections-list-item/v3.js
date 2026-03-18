@@ -1,5 +1,6 @@
-import { Menu, Notice } from 'obsidian';
+import { Menu } from 'obsidian';
 import { copy_to_clipboard } from 'obsidian-smart-env/utils/copy_to_clipboard.js';
+import { emit_notice_event } from 'obsidian-smart-env/src/utils/emit_notice_event.js';
 import styles_css from './v3.css';
 
 import {
@@ -186,7 +187,13 @@ export async function post_process(result_scope, container, params = {}) {
             source_item.collection.save();
             source_item.emit_event('connections:hidden_item');
           } catch (err) {
-            new Notice('Hide failed – check console');
+            emit_notice_event(env, {
+              event_key: 'connections:hide_failed',
+              level: 'error',
+              message: 'Hide failed – check console',
+              details: err?.message || '',
+              event_source: 'connections_list_item.contextmenu',
+            });
             console.error(err);
           }
         })
@@ -212,7 +219,13 @@ export async function post_process(result_scope, container, params = {}) {
             source_item.queue_save();
             source_item.collection.save();
           } catch (err) {
-            new Notice(`${title_prefix} failed – check console`);
+            emit_notice_event(env, {
+              event_key: 'connections:pin_toggle_failed',
+              level: 'error',
+              message: `${title_prefix} failed – check console`,
+              details: err?.message || '',
+              event_source: 'connections_list_item.contextmenu',
+            });
             console.error(err);
           }
         })
@@ -227,8 +240,13 @@ export async function post_process(result_scope, container, params = {}) {
           .setTitle('Copy as list of links')
           .setIcon('copy')
           .onClick(async () => {
-            await copy_to_clipboard(links_payload);
-            new Notice('Connections links copied to clipboard');
+            await copy_to_clipboard(links_payload, {
+              env,
+              event_source: 'connections_list_item.copy_as_links',
+              success_event_key: 'connections:list_copied',
+              error_event_key: 'connections:list_copy_failed',
+              unavailable_event_key: 'connections:list_copy_unavailable',
+            });
             result_scope.connections_list.emit_event('connections:copied_list');
           })
         ;
@@ -251,7 +269,13 @@ export async function post_process(result_scope, container, params = {}) {
             container.closest('.sc-connections-view')?.querySelector('[title="Refresh"]')?.click(); // refresh the results
             source_item.collection.save();
           } catch (err) {
-            new Notice('Unhide failed – check console');
+            emit_notice_event(env, {
+              event_key: 'connections:unhide_failed',
+              level: 'error',
+              message: 'Unhide failed – check console',
+              details: err?.message || '',
+              event_source: 'connections_list_item.contextmenu',
+            });
             console.error(err);
           }
         })
@@ -276,7 +300,13 @@ export async function post_process(result_scope, container, params = {}) {
             source_item.queue_save();
             source_item.collection.save();
           } catch (err) {
-            new Notice('Unpin failed – check console');
+            emit_notice_event(env, {
+              event_key: 'connections:unpin_failed',
+              level: 'error',
+              message: 'Unpin failed – check console',
+              details: err?.message || '',
+              event_source: 'connections_list_item.contextmenu',
+            });
             console.error(err);
           }
         })
