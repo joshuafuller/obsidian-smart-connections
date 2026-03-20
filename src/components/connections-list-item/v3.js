@@ -330,7 +330,7 @@ function get_result_header_html(score, item, component_settings = {}) {
   return [
     `<small class="sc-breadcrumb sc-score">${formatted_score}</small>`,
     `${parts_html}${separator}`,
-    `<small class="sc-breadcrumb sc-title">${name}</small>`,
+    `<small class="sc-breadcrumb sc-title">${name.endsWith('.md') ? name.replace(/\.md$/, '') : name}</small>`,
   ].join('');
 }
 
