@@ -1,6 +1,6 @@
 import styles from './connections_codeblock.css';
 import { StoryModal } from 'obsidian-smart-env/src/modals/story.js';
-import { copy_to_clipboard } from 'obsidian-smart-env/utils/copy_to_clipboard.js';
+import { copy_to_clipboard } from 'obsidian-smart-env/src/utils/copy_to_clipboard.js';
 
 import { build_connections_context_items } from '../utils/connections_context_items.js';
 import { format_connections_as_links } from '../utils/format_connections_as_links.js';

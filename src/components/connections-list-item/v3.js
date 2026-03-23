@@ -1,5 +1,5 @@
 import { Menu } from 'obsidian';
-import { copy_to_clipboard } from 'obsidian-smart-env/utils/copy_to_clipboard.js';
+import { copy_to_clipboard } from 'obsidian-smart-env/src/utils/copy_to_clipboard.js';
 import styles_css from './v3.css';
 
 import {

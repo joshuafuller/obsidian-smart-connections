@@ -1,7 +1,7 @@
 import styles from './v3.css';
 import { Menu } from 'obsidian';
 import { StoryModal } from 'obsidian-smart-env/src/modals/story.js';
-import { copy_to_clipboard } from 'obsidian-smart-env/utils/copy_to_clipboard.js';
+import { copy_to_clipboard } from 'obsidian-smart-env/src/utils/copy_to_clipboard.js';
 import { build_connections_context_items } from '../../utils/connections_context_items.js';
 import { get_context_lines } from '../../utils/context_lines.js';
 import { connections_view_refresh_handler } from '../../utils/connections_view_refresh_handler.js';
