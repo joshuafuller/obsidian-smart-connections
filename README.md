@@ -20,7 +20,7 @@ More time for what matters most<br>
 
 
 > [!NOTE] What Smart Connections does  
-> Smart Connections uses local embeddings and your Smart Environment to surface notes that are semantically related to what you are working on right now.
+> Smart Connections uses local embeddings and your Smart Environment to surface notes that are semantically related to what you are working on right now. Start with the [overview](https://smartconnections.app/smart-connections/?utm_source=connections-readme), then jump into the [Connections view guide](https://smartconnections.app/smart-connections/list-feature/?utm_source=connections-readme), [Lookup guide](https://smartconnections.app/smart-connections/lookup/?utm_source=connections-readme), and [settings guide](https://smartconnections.app/smart-connections/settings/?utm_source=connections-readme) as your workflow gets deeper.
 
 ✔️ Zero-setup: ships with a local embedding model that just works  
 
@@ -57,21 +57,33 @@ Access the Getting Started guide from Smart Connections settings.
 Watch the [feature walkthrough slideshow](https://smartconnections.app/story/smart-connections-getting-started/?utm_source=connections-readme) or read the [Getting Started guide](https://smartconnections.app/smart-connections/getting-started/?utm_source=connections-readme) to see how Smart Connections fits into your workflow, including Connections view, Lookup view, inline Pro features, and Smart Environment settings.
 #### Learn more
 
+**Core docs**
+
 | Path | Use it for |
 | --- | --- |
 | [Smart Connections overview](https://smartconnections.app/smart-connections/?utm_source=connections-readme) | Understand what Smart Connections does end-to-end. |
 | [Getting Started](https://smartconnections.app/smart-connections/getting-started/?utm_source=connections-readme) | Install and reach your first successful workflow fast. |
-| [Connections list feature](https://smartconnections.app/smart-connections/list-feature/?utm_source=connections-readme) | See how related note suggestions are ranked and rendered. |
+| [Connections list feature](https://smartconnections.app/smart-connections/list-feature/?utm_source=connections-readme) | Learn the scan -> confirm -> act workflow for related notes. |
 | [Lookup view](https://smartconnections.app/smart-connections/lookup/?utm_source=connections-readme) | Run semantic searches across your vault on demand. |
-| [Settings guide](https://smartconnections.app/smart-connections/settings/?utm_source=connections-readme) | Configure indexing, model behavior, and UI defaults. |
+| [Settings guide](https://smartconnections.app/smart-connections/settings/?utm_source=connections-readme) | Configure indexing, filters, ranking, and UI defaults. |
 
 **Pro surfaces**
 
-| Path                                                                                                             | Use it for                                            |
-| ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| Path | Use it for |
+| --- | --- |
 | [Inline connections (Pro)](https://smartconnections.app/smart-connections/inline/?utm_source=connections-readme) | Trigger note suggestions while writing in the editor. |
-| [Bases integration (Pro)](https://smartconnections.app/smart-connections/bases/?utm_source=connections-readme)   | Blend semantic context with Obsidian Bases workflows. |
-| [Pro plugins overview](https://smartconnections.app/pro-plugins/?utm_source=connections-readme)                  | Compare active Pro plugin capabilities and plans.     |
+| [Bases integration (Pro)](https://smartconnections.app/smart-connections/bases/?utm_source=connections-readme) | Blend semantic context with Obsidian Bases workflows. |
+| [Pro plugins overview](https://smartconnections.app/pro-plugins/?utm_source=connections-readme) | Compare active Pro plugin capabilities and plans. |
+
+**Pick a path**
+
+| If you want to... | Start here |
+| --- | --- |
+| Reach your first win fast | [Getting Started](https://smartconnections.app/smart-connections/getting-started/?utm_source=connections-readme) |
+| Understand the core daily loop | [Connections list feature](https://smartconnections.app/smart-connections/list-feature/?utm_source=connections-readme) |
+| Search by meaning across the vault | [Lookup view](https://smartconnections.app/smart-connections/lookup/?utm_source=connections-readme) |
+| Tune results for a large or specialized vault | [Settings guide](https://smartconnections.app/smart-connections/settings/?utm_source=connections-readme) |
+| Explore advanced workflows | [Pro plugins overview](https://smartconnections.app/pro-plugins/?utm_source=connections-readme) |
 
 
 ## Getting started
@@ -95,7 +107,7 @@ A local model starts creating embeddings right away. No extra apps, no CLI tools
 </details><br>
 
 <details><summary><span style="--font-weight: var(--h3-weight); font-variant: var(--h3-variant); letter-spacing: var(--h3-letter-spacing); line-height: var(--h3-line-height); font-size: var(--h3-size); color: var(--h3-color); font-weight: var(--font-weight); font-style: var(--h3-style); font-family: var(--h3-font); cursor: pointer;">Connections view</span></summary>
-The Connections view shows notes that are semantically related to your current note.
+The Connections view shows notes that are semantically related to your current note. See the full [Connections list feature guide](https://smartconnections.app/smart-connections/list-feature/?utm_source=connections-readme) for the complete workflow, screenshots, and control breakdown.
 
 Open it from the left ribbon (Connections icon) or from the command palette by running the `Open: Connection view` command.
 
@@ -136,7 +148,7 @@ Right click any result and use **Unhide all** to bring hidden items back:
 </details><br>
 
 <details><summary><span style="--font-weight: var(--h3-weight); font-variant: var(--h3-variant); letter-spacing: var(--h3-letter-spacing); line-height: var(--h3-line-height); font-size: var(--h3-size); color: var(--h3-color); font-weight: var(--font-weight); font-style: var(--h3-style); font-family: var(--h3-font); cursor: pointer;">Lookup view (semantic search)</span></summary>
-Use the Lookup view for ad hoc semantic search across your vault.
+Use the Lookup view for ad hoc semantic search across your vault. The dedicated [Lookup guide](https://smartconnections.app/smart-connections/lookup/?utm_source=connections-readme) shows when to use query-first discovery instead of note-first Connections.
 
 Open it from the ribbon (Lookup icon) or from the command palette by running the `Open: Lookup view` command.
 
@@ -160,22 +172,22 @@ Note: the random connection command requires the Connections view to be active.
 
 ## What's new in v4?
 
-Smart Connections v4 focuses the core plugin on a simple promise: install, enable, and AI-powered connections just work. Advanced configuration and power-user workflows now live in Pro plugins. Read [Introducing Pro Plugins](https://smartconnections.app/introducing-pro-plugins/?utm_source=connections-readme) to learn more.
+Smart Connections v4 focuses the core plugin on a simple promise: install, enable, and AI-powered connections just work. Advanced configuration and power-user workflows now live in Pro plugins. Read [Introducing Pro Plugins](https://smartconnections.app/introducing-pro-plugins/?utm_source=connections-readme) to learn more, then use the [Pro plugins overview](https://smartconnections.app/pro-plugins/?utm_source=connections-readme) when you are ready to compare advanced workflows.
 
 <details><summary><span style="--font-weight: var(--h3-weight); font-variant: var(--h3-variant); letter-spacing: var(--h3-letter-spacing); line-height: var(--h3-line-height); font-size: var(--h3-size); color: var(--h3-color); font-weight: var(--font-weight); font-style: var(--h3-style); font-family: var(--h3-font); cursor: pointer;">Pause connections</span></summary>
-Use the new Connections "pause" button to freeze the connections results. This allows you to move through your vault while keeping the connections to a specific note visible while you work.
+Use the new Connections "pause" button to freeze the connections results. This allows you to move through your vault while keeping the connections to a specific note visible while you work. See the [Connections list feature guide](https://smartconnections.app/smart-connections/list-feature/?utm_source=connections-readme#understanding-ui) for the full control breakdown.
 </details><br>
 
 <details><summary><span style="--font-weight: var(--h3-weight); font-variant: var(--h3-variant); letter-spacing: var(--h3-letter-spacing); line-height: var(--h3-line-height); font-size: var(--h3-size); color: var(--h3-color); font-weight: var(--font-weight); font-style: var(--h3-style); font-family: var(--h3-font); cursor: pointer;">Copy connections as list of links</span></summary>
-Right-click the connections results to *copy all links* to clipboard.
+Right-click the connections results to *copy all links* to clipboard. The [Connections list feature guide](https://smartconnections.app/smart-connections/list-feature/?utm_source=connections-readme#send-to-context) shows when to use copied links versus Send to Smart Context.
 </details><br>
 
 <details><summary><span style="--font-weight: var(--h3-weight); font-variant: var(--h3-variant); letter-spacing: var(--h3-letter-spacing); line-height: var(--h3-line-height); font-size: var(--h3-size); color: var(--h3-color); font-weight: var(--font-weight); font-style: var(--h3-style); font-family: var(--h3-font); cursor: pointer;">Copy all connections content (Context Engineering)</span></summary>
-Click the connections view menu button and "Send to Smart Context" (briefcase icon) option. This allows you to quickly copy *all content from the connections* to clipboard for use as context with any AI chat! The Smart Context view also lets you add or remove items before copying all to the clipboard in one-click!
+Click the connections view menu button and "Send to Smart Context" (briefcase icon) option. This allows you to quickly copy *all content from the connections* to clipboard for use as context with any AI chat! The Smart Context view also lets you add or remove items before copying all to the clipboard in one-click. Pair this with the [Connections list feature guide](https://smartconnections.app/smart-connections/list-feature/?utm_source=connections-readme#send-to-context) and [Smart Context Builder](https://smartconnections.app/smart-context/builder/?utm_source=connections-readme) when you want a cleaner AI-ready bundle.
 </details><br>
 
 <details><summary><span style="--font-weight: var(--h3-weight); font-variant: var(--h3-variant); letter-spacing: var(--h3-letter-spacing); line-height: var(--h3-line-height); font-size: var(--h3-size); color: var(--h3-color); font-weight: var(--font-weight); font-style: var(--h3-style); font-family: var(--h3-font); cursor: pointer;">Pinned connections</span></summary>
-In addition to "hiding" connections, you can now "Pin" connections. This ensures the pinned connections are always visible in the connections view. **Connections Pro:** *Hidden and pinned connections are used by new connections algorithms (available in Pro) to improve results!*
+In addition to "hiding" connections, you can now "Pin" connections. This ensures the pinned connections are always visible in the connections view. **Connections Pro:** *Hidden and pinned connections are used by new connections algorithms (available in Pro) to improve results.* See the [settings guide](https://smartconnections.app/smart-connections/settings/?utm_source=connections-readme) for tuning options.
 </details><br>
 
 <details><summary><span style="--font-weight: var(--h3-weight); font-variant: var(--h3-variant); letter-spacing: var(--h3-letter-spacing); line-height: var(--h3-line-height); font-size: var(--h3-size); color: var(--h3-color); font-weight: var(--font-weight); font-style: var(--h3-style); font-family: var(--h3-font); cursor: pointer;">Connections Pro</span></summary>
@@ -198,7 +210,7 @@ Examples of Pro features:
 - **Early release experiments**  
 	New ideas launch in Early channels first so supporters can shape how they evolve.
 
-Connections Pro is part of the [Pro plugins](https://smartconnections.app/pro-plugins/?utm_source=connections-readme) family and is available to active project supporters. It is still built on the same open Smart Environment. Supporting Pro helps fund development of all Smart Plugins and the free core.
+Connections Pro is part of the [Pro plugins](https://smartconnections.app/pro-plugins/?utm_source=connections-readme) family and is available to active project supporters. It is still built on the same source-available Smart Environment. Supporting Pro helps fund development of all Smart Plugins and the free core.
 </details><br>
 
 <details><summary><span style="--font-weight: var(--h3-weight); font-variant: var(--h3-variant); letter-spacing: var(--h3-letter-spacing); line-height: var(--h3-line-height); font-size: var(--h3-size); color: var(--h3-color); font-weight: var(--font-weight); font-style: var(--h3-style); font-family: var(--h3-font); cursor: pointer;">Events and notifications</span></summary>
