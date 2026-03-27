@@ -9,8 +9,6 @@ import { render as connections_list_v3_component, display_name as connections_li
 import { render as connections_list_v4_component, settings_config as connections_list_v4_component_settings_config, display_name as connections_list_v4_component_display_name } from './src/components/connections-list/v4.js';
 import { render as connections_settings_header_component } from './src/components/connections-settings/header.js';
 import { render as connections_view_v3_component } from './src/components/connections-view/v3.js';
-import { render as lookup_item_view_component } from './src/components/lookup_item_view.js';
-import { render as lookup_list_component } from './src/components/lookup_list.js';
 import { pre_process as connections_list_pre_process_action, pre_process as connections_list_pre_process_action_pre_process } from './src/actions/connections-list/pre_process.js';
 
 export const smart_env_config = {
@@ -33,9 +31,7 @@ export const smart_env_config = {
     connections_list_v3: { render: connections_list_v3_component, display_name: connections_list_v3_component_display_name },
     connections_list_v4: { render: connections_list_v4_component, settings_config: connections_list_v4_component_settings_config, display_name: connections_list_v4_component_display_name },
     connections_settings_header: { render: connections_settings_header_component },
-    connections_view_v3: { render: connections_view_v3_component },
-    lookup_item_view: { render: lookup_item_view_component },
-    lookup_list: { render: lookup_list_component }
+    connections_view_v3: { render: connections_view_v3_component }
   },
   actions: {
     connections_list_pre_process: { action: connections_list_pre_process_action, pre_process: connections_list_pre_process_action_pre_process }

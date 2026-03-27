@@ -55,7 +55,8 @@
     "smart-sources": "file:../jsbrains/smart-sources",
     "smart-utils": "file:../jsbrains/smart-utils",
     "smart-view": "file:../jsbrains/smart-view",
-    "smart-context-obsidian": "file:../smart-context-obsidian"
+    "smart-context-obsidian": "file:../smart-context-obsidian",
+    "smart-lookup-obsidian": "file:../smart-lookup-obsidian"
   },
   "ava": {
     "files": [
@@ -68,6 +69,7 @@
   },
   "workspaces": [
     "../jsbrains/*",
-    "../smart-context-obsidian"
+    "../smart-context-obsidian",
+    "../smart-lookup-obsidian"
   ]
 }
