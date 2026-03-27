@@ -14,7 +14,7 @@ import {
   remove_all_pinned_states,
   remove_pinned_state,
 } from '../../utils/connections_list_item_state.js';
-import { DISPLAY_SEPARATOR, get_item_display_name } from '../../utils/get_item_display_name.js';
+import { DISPLAY_SEPARATOR, get_item_display_name } from 'obsidian-smart-env/src/utils/get_item_display_name.js';
 import { format_connections_as_links } from '../../utils/format_connections_as_links.js';
 import { register_item_hover_popover } from 'obsidian-smart-env/src/utils/register_item_hover_popover.js';
 import { register_item_drag } from 'obsidian-smart-env/src/utils/register_item_drag.js';

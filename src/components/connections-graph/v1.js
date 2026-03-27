@@ -1,5 +1,5 @@
 import styles_css from './v1.css';
-import { get_item_display_name } from '../../utils/get_item_display_name.js';
+import { get_item_display_name } from 'obsidian-smart-env/src/utils/get_item_display_name.js';
 import { cos_sim } from 'smart-utils/cos_sim.js';
 import { register_item_drag } from 'obsidian-smart-env/src/utils/register_item_drag.js';
 import { register_item_hover_popover } from 'obsidian-smart-env/src/utils/register_item_hover_popover.js';
