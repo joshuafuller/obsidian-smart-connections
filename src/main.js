@@ -20,7 +20,7 @@ import { should_relocate_leaf } from "./utils/view_leaf_location.js";
 
 import { SmartPlugin } from "obsidian-smart-env/smart_plugin.js";
 import { ConnectionsItemView } from "./views/connections_item_view.js";
-import { LookupItemView } from "./views/lookup_item_view.js";
+import { ConnectionsLookupItemView } from './views/lookup_item_view.js';
 import { register_smart_connections_codeblock } from "./views/connections_codeblock.js";
 import { build_connections_codeblock } from "./utils/build_connections_codeblock.js";
 
@@ -30,7 +30,7 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
 
   get smart_env_config() {
     if (!this._smart_env_config) {
-      this._smart_env_config = smart_env_config;
+      this._smart_env_config = { ...smart_env_config };
     }
     return this._smart_env_config;
   }
@@ -40,8 +40,9 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
   get item_views() {
     return {
       ConnectionsItemView,
-      LookupItemView,
       ReleaseNotesView: this.ReleaseNotesView,
+      // TEMP during transition to Lookup as standalone plugin (conditionally include ConnectionsLookupItemView if Smart Lookup is not enabled to avoid conflicts)
+      ...(!this.app.plugins.enabledPlugins.has('smart-lookup') ? {ConnectionsLookupItemView} : {}),
     };
   }
 
