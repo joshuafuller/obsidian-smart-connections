@@ -9,6 +9,7 @@ async function build_html(scope_plugin) {
         <button class="sc-request-feature-button">Request a feature</button>
         <button class="sc-share-workflow-button">Share workflow ⭐</button>
       </div>
+      <div id="smart-lookup-header-callout"></div>
     </div>
   `;
 }
@@ -73,6 +74,16 @@ export async function post_process(scope_plugin, frag) {
       '_external'
     );
   });
+
+  const smart_lookup_header_callout = frag.querySelector('#smart-lookup-header-callout');
+  if (smart_lookup_header_callout) {
+    const smart_lookup_callout = await scope_plugin.env.render_component(
+      'connections_settings_lookup_callout',
+      scope_plugin
+    );
+    smart_lookup_header_callout.appendChild(smart_lookup_callout);
+  }
+
 
   return frag;
 }
