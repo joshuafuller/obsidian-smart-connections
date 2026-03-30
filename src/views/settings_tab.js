@@ -32,8 +32,6 @@ export class ScEarlySettingsTab extends SmartPluginSettingsTab {
     cl_container.createEl('h1', { text: 'Connections' });
     
     const connections_lists_settings_config = this.env.config.collections.connections_lists.settings_config;
-    // const connections_lists_settings = await smart_view.render_settings(connections_lists_settings_config, { scope: this.env.connections_lists });
-    // if (connections_lists_settings) cl_container.appendChild(connections_lists_settings);
     render_settings_config(
       connections_lists_settings_config,
       this.env.connections_lists,
