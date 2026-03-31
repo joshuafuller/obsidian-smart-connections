@@ -26,7 +26,7 @@ export async function post_process(scope_plugin, frag) {
   /* user agreement & env settings */
   const user_agreement_container = frag.querySelector('[data-user-agreement]');
   if (user_agreement_container) {
-    const user_agreement = await scope_plugin.env.render_component(
+    const user_agreement = await scope_plugin.env.smart_components.render_component(
       'user_agreement_callout',
       scope_plugin
     );
@@ -77,7 +77,7 @@ export async function post_process(scope_plugin, frag) {
 
   const smart_lookup_header_callout = frag.querySelector('#smart-lookup-header-callout');
   if (smart_lookup_header_callout) {
-    const smart_lookup_callout = await scope_plugin.env.render_component(
+    const smart_lookup_callout = await scope_plugin.env.smart_components.render_component(
       'connections_settings_lookup_callout',
       scope_plugin
     );
