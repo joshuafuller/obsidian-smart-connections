@@ -97,16 +97,22 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
         description: "Smart Connections: Open connections view",
         callback: () => { this.open_connections_view(); }
       },
-      lookup: {
-        icon_name: "smart-lookup",
-        description: "Smart Lookup: Open lookup view",
-        callback: () => { this.open_lookup_view(); }
-      },
       random_note: {
         icon_name: "smart-dice",
         description: "Smart Connections: Open random connection",
         callback: () => { this.open_random_connection(); }
-      }
+      },
+      // TEMP during transition to Lookup as standalone plugin (conditionally include ribbon icon if Smart Lookup is not enabled to avoid conflicts)
+      ...(app.plugins.enabledPlugins.has('smart-lookup')
+        ? {}
+        : {
+          lookup: {
+            icon_name: "smart-lookup",
+            description: "Smart Lookup: Open lookup view",
+            callback: () => { this.open_lookup_view(); }
+          },
+        }
+      ),
     };
   }
 
