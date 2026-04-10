@@ -21,6 +21,8 @@ import { should_relocate_leaf } from "./utils/view_leaf_location.js";
 import { SmartPlugin } from "obsidian-smart-env/smart_plugin.js";
 import { ConnectionsItemView } from "./views/connections_item_view.js";
 import { ConnectionsLookupItemView } from './views/lookup_item_view.js';
+import { connections_footer_plugin } from './views/connections_footer_deco.js';
+import { ConnectionsFooterView } from './views/connections_footer_view.js';
 import { register_smart_connections_codeblock } from "./views/connections_codeblock.js";
 import { build_connections_codeblock } from "./utils/build_connections_codeblock.js";
 
@@ -61,6 +63,7 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
 
   onunload() {
     console.log("Unloading Smart Connections plugin");
+    this.connections_footer_view?.unload();
     this.notices?.unload();
     this.env?.unload_main?.(this);
   }
@@ -87,6 +90,11 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
     this.apply_connections_view_location();
     this.register_connections_view_location_listener();
     register_smart_connections_codeblock(this);
+    if (!this.connections_footer_view) {
+      this.registerEditorExtension(connections_footer_plugin);
+      this.connections_footer_view = new ConnectionsFooterView(this);
+    }
+    this.toggled_footer_connections();
     await this.check_for_updates();
   }
 
@@ -96,6 +104,14 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
         icon_name: "smart-connections",
         description: "Smart Connections: Open connections view",
         callback: () => { this.open_connections_view(); }
+      },
+      footer_connections: {
+        description: 'Toggle Footer Connections',
+        icon_name: 'smart-footer-connections',
+        callback: () => {
+          const settings = this.env.connections_lists.settings;
+          settings.footer_connections = !settings.footer_connections;
+        }
       },
       random_note: {
         icon_name: "smart-dice",
@@ -239,6 +255,14 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
           editor.replaceSelection(build_connections_codeblock());
         }
       },
+      toggle_footer_connections: {
+        id: 'toggle-footer-connections',
+        name: 'Toggle: Footer connections',
+        callback: () => {
+          const settings = this.env.connections_lists.settings;
+          settings.footer_connections = !settings.footer_connections;
+        }
+      },
     };
   }
 
@@ -267,6 +291,33 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
     }
     this.open_note(rand_entity.item.path);
     this.env?.events?.emit?.('connections:open_random');
+  }
+
+  /**
+   * Attempts to retrieve the CodeMirror 6 EditorView for the active markdown file.
+   * @returns {EditorView|null}
+   */
+  get_editor_view() {
+    const file = this.app.workspace.getActiveFile();
+    if (!file) {
+      console.log("Smart Connections: No active file found");
+      return null;
+    }
+    const markdown_view = this.app.workspace.getActiveFileView();
+    if (!markdown_view) {
+      console.log("Smart Connections: No active file view found");
+      return null;
+    }
+    return markdown_view.editor?.cm || null;
+  }
+
+  toggled_footer_connections() {
+    const view = this.get_editor_view();
+    if (view && this.env.connections_lists.settings.footer_connections) {
+      this.connections_footer_view?.render_view();
+    } else {
+      this.connections_footer_view?.remove();
+    }
   }
 
   async open_note(target_path, event = null) { await open_note(this, target_path, event); }

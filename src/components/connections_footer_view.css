@@ -1,0 +1,17 @@
+.connections-footer-view-shell {
+  .connections-list {
+    padding-top: 0.85rem;
+
+    > .sc-collapsed ul {
+      display: none;
+    }
+    > .sc-collapsed span svg {
+      transform: rotate(-90deg);
+    }
+    > .sc-result-pinned {
+      box-shadow: 0 0 0 1px var(--interactive-accent);
+      border-radius: var(--radius-s);
+      background-color: var(--background-modifier-hover);
+    }
+  }
+}

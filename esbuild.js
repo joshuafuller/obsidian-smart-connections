@@ -70,6 +70,8 @@ esbuild.build({
     'electron',
     'obsidian',
     'crypto',
+    '@codemirror/state',
+    '@codemirror/view',
     '@xenova/transformers',
     '@huggingface/transformers',
     'http',

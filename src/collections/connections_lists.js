@@ -58,8 +58,6 @@ export class ConnectionsLists extends Collection {
 
   get settings_config() {
     return settings_config(this);
-    // let config = { ...connections_filter_config };
-    // return config;
   }
 
   new_item(item) {
@@ -82,12 +80,12 @@ export class ConnectionsLists extends Collection {
     ;
   }
 
-  get score_algo_key () {
+  get score_algo_key() {
     const stored_key = this.settings?.score_algo_key;
     if(this.env.config?.actions?.[stored_key]) return stored_key;
     return 'similarity'; // TEMP default
   }
-  get results_collection_key () {
+  get results_collection_key() {
     const stored_key = this.settings?.results_collection_key;
     if(this.env[stored_key]) return stored_key;
     return 'smart_sources';
@@ -123,13 +121,13 @@ export class ConnectionsLists extends Collection {
     return Object.fromEntries(
       Object.entries(config)
         .map(([k, v]) => {
-          return [`components.${component_key}.${k}`, v]
+          return [`components.${component_key}.${k}`, v];
         })
     );
   }
 }
 
-export function settings_config (scope) {
+export function settings_config(scope) {
   let config = {
     "results_collection_key": {
       name: "Connection results type",
@@ -177,7 +175,6 @@ export function settings_config (scope) {
       group: 'Footer connections',
       name: "Show footer connections",
       type: "toggle",
-      scope_class: 'pro-setting',
       description: "Show connections at the bottom of each note.",
     },
     filters_helper: {
@@ -249,7 +246,7 @@ export function settings_config (scope) {
     };
   }
 
-  if(scope.connections_list_component_settings_config){
+  if(scope.connections_list_component_settings_config) {
     config = insert_settings_after('results_limit', config, scope.connections_list_component_settings_config);
   }
 
@@ -262,4 +259,3 @@ export default {
   item_type: ConnectionsList,
   settings_config,
 };
-

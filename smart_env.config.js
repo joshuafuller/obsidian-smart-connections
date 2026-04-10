@@ -3,6 +3,7 @@ import connections_lists from './src/collections/connections_lists.js';
 import { ConnectionsList } from './src/items/connections_list.js';
 
 import { render as connections_codeblock_component } from './src/components/connections_codeblock.js';
+import { render as connections_footer_view_component } from './src/components/connections_footer_view.js';
 import { render as connections_graph_v1_component } from './src/components/connections-graph/v1.js';
 import { render as connections_list_item_v3_component, settings_config as connections_list_item_v3_component_settings_config } from './src/components/connections-list-item/v3.js';
 import { render as connections_list_v3_component, display_name as connections_list_v3_component_display_name } from './src/components/connections-list/v3.js';
@@ -30,6 +31,7 @@ export const smart_env_config = {
   },
   components: {
     connections_codeblock: { render: connections_codeblock_component },
+    connections_footer_view: { render: connections_footer_view_component },
     connections_graph_v1: { render: connections_graph_v1_component },
     connections_list_item_v3: { render: connections_list_item_v3_component, settings_config: connections_list_item_v3_component_settings_config },
     connections_list_v3: { render: connections_list_v3_component, display_name: connections_list_v3_component_display_name },
