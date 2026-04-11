@@ -33,6 +33,12 @@ export class ConnectionsList extends CollectionItem {
    * @returns {Promise<Array>}
    */
   async get_results (params = {}) {
+    if (this._results_promise) return this._results_promise; // cache promise to prevent duplicate calls
+    this._results_promise = this._get_results(params);
+    return this._results_promise;
+  }
+
+  async _get_results (params = {}) {
     // Pre-process params
     await this.pre_process(params);
     // Main filtering and scoring
