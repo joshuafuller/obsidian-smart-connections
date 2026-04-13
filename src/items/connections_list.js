@@ -42,7 +42,14 @@ export class ConnectionsList extends CollectionItem {
     // Pre-process params
     await this.pre_process(params);
     // Main filtering and scoring
+
+    // log performance of filter_and_score
+    if (this.env.log_perf) this.start_ms = Date.now();
     let results = this.filter_and_score(params);
+    if (this.env.log_perf) {
+      this.end_ms = Date.now();
+      console.log(`filter_and_score(${params.score_algo_key}) took ${this.end_ms - this.start_ms} ms (Date.now)`);
+    }
     // Post-process if needed
     results = await this.post_process(results, params);
     results = merge_pinned_results(results, params);
@@ -68,6 +75,7 @@ export class ConnectionsList extends CollectionItem {
     ;
     const results = Array.from(raw_results).sort(sort_by_score_descending);
     if(!results.length) return results;
+    // TODO: 2026-04-13 remove this normailization (only applies to custom algos anyway) 
     while(!results.some(r => r.score > 0.5)) {
       results.forEach(r => r.score *= 2);
     }
