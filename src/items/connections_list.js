@@ -30,19 +30,27 @@ export class ConnectionsList extends CollectionItem {
   /**
    * Produce ranked connections for the current source item.
    * @param {object} params
+   * @note cannot call with different params until promise resolves
    * @returns {Promise<Array>}
    */
   async get_results (params = {}) {
+    // clear if promise is resolved (allows for re-fetching with different params)
     if (this._results_promise) return this._results_promise; // cache promise to prevent duplicate calls
-    this._results_promise = this._get_results(params);
+    const p = this._get_results(params);
+    this._results_promise = p;
+    this._results_promise.finally(() => {
+      if (this._results_promise === p) {
+        this._results_promise = null; // clear promise once resolved/rejected
+      }
+    });
     return this._results_promise;
   }
 
   async _get_results (params = {}) {
     // Pre-process params
     await this.pre_process(params);
+    
     // Main filtering and scoring
-
     // log performance of filter_and_score
     if (this.env.log_perf) this.start_ms = Date.now();
     let results = this.filter_and_score(params);
