@@ -125,7 +125,7 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
           lookup: {
             icon_name: "smart-lookup",
             description: "Smart Lookup: Open lookup view",
-            callback: () => { this.open_lookup_view(); }
+            callback: () => { this.open_lookup_view_connections(); }
           },
         }
       ),
