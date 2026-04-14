@@ -228,7 +228,9 @@ export async function render(connections_list, params = {}) {
 /* -------------------------------------------------------------------------- */
 
 async function post_process(connections_list, container, params = {}) {
-  const results = await connections_list.get_results(params);
+  const {
+    results = await connections_list.get_results(params),
+  } = params;
 
   try {
     const d3 = await load_d3();

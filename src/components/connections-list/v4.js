@@ -34,7 +34,7 @@ export async function post_process(connections_list, container, opts = {}) {
   const show_graph = opts.show_graph ?? component_settings.show_graph;
   if(show_graph) {
     try {
-      const graph = await env.smart_components.render_component('connections_graph_v1', connections_list, opts);
+      const graph = await env.smart_components.render_component('connections_graph_v1', connections_list, { ...opts, results });
       this.empty(graph_container);
       graph_container.appendChild(graph);
       register_graph_events(graph, list_container);
