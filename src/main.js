@@ -266,10 +266,6 @@ export default class SmartConnectionsPlugin extends SmartPlugin {
     };
   }
 
-  show_release_notes() {
-    return this.ReleaseNotesView.open(this.app.workspace, this.manifest.version);
-  }
-
   async open_random_connection() {
     const curr_file = this.app.workspace.getActiveFile();
     if (!curr_file) {
