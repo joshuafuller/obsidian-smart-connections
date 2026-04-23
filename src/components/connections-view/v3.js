@@ -192,6 +192,8 @@ export async function post_process(view, container, opts = {}) {
         ;
       });
 
+      env.build_menu?.('connections_list', menu, connections_list);
+
       menu.addSeparator();
 
       menu.addItem((menu_item) => {
